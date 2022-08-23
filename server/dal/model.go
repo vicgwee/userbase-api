@@ -10,12 +10,12 @@ package dal
 */
 
 type User struct {
-	Id          *string `json:"id" validate:"required" minLength:"1" maxLength:"16"`
-	Name        *string `json:"name,omitempty" validate:"required" minLength:"1" maxLength:"100"`
-	DateOfBirth *string `json:"dob,omitempty" validate:"required" minLength:"8" maxLength:"8"`
-	Address     *string `json:"address,omitempty" validate:"required" minLength:"1" maxLength:"100"`
-	Desc        *string `json:"description,omitempty" validate:"required" minLength:"1" maxLength:"1000"`
-	CreateDate  *string `json:"createdAt,omitempty" validate:"optional" minLength:"8" maxLength:"8"`
+	Id          *string `json:"id" validate:"required" minLength:"1" maxLength:"16" example:"1"`
+	Name        *string `json:"name,omitempty" validate:"required" minLength:"1" maxLength:"100" example:"test"`
+	DateOfBirth *string `json:"dob,omitempty" validate:"required" minLength:"8" maxLength:"8" example:"20060102"`
+	Address     *string `json:"address,omitempty" validate:"required" minLength:"1" maxLength:"100" example:"10 Anson Road, #17-06, International Plaza, 097903"`
+	Desc        *string `json:"description,omitempty" validate:"required" minLength:"1" maxLength:"1000" example:"testDescription"`
+	CreateDate  *string `json:"createdAt,omitempty" validate:"optional" minLength:"8" maxLength:"8" example:"20220801"`
 }
 
 type UserDocument struct {

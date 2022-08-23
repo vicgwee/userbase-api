@@ -219,32 +219,38 @@ const docTemplate = `{
                 "address": {
                     "type": "string",
                     "maxLength": 100,
-                    "minLength": 1
+                    "minLength": 1,
+                    "example": "10 Anson Road, #17-06, International Plaza, 097903"
                 },
                 "createdAt": {
                     "type": "string",
                     "maxLength": 8,
-                    "minLength": 8
+                    "minLength": 8,
+                    "example": "20220801"
                 },
                 "description": {
                     "type": "string",
                     "maxLength": 1000,
-                    "minLength": 1
+                    "minLength": 1,
+                    "example": "testDescription"
                 },
                 "dob": {
                     "type": "string",
                     "maxLength": 8,
-                    "minLength": 8
+                    "minLength": 8,
+                    "example": "20060102"
                 },
                 "id": {
                     "type": "string",
                     "maxLength": 16,
-                    "minLength": 1
+                    "minLength": 1,
+                    "example": "1"
                 },
                 "name": {
                     "type": "string",
                     "maxLength": 100,
-                    "minLength": 1
+                    "minLength": 1,
+                    "example": "test"
                 }
             }
         }
