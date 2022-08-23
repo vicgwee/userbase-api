@@ -7,6 +7,7 @@ import (
 	"userbase-api/server/dal"
 	service "userbase-api/server/service/users"
 	ue "userbase-api/server/utils/errors"
+	"userbase-api/server/utils/helpers"
 
 	"github.com/gorilla/mux"
 )
@@ -24,14 +25,14 @@ func CreateNewUserHandler(w http.ResponseWriter, r *http.Request) {
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		code := http.StatusBadRequest
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 
 	var user dal.User
 	if err := json.Unmarshal(reqBody, &user); err != nil {
 		code := http.StatusBadRequest
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 
@@ -39,12 +40,12 @@ func CreateNewUserHandler(w http.ResponseWriter, r *http.Request) {
 	newUser, err := service.Create(ctx, &user)
 	if err != nil {
 		code := ue.GetStatusCode(err)
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(newUser)
+	code := http.StatusCreated
+	helpers.RespondWithJSON(w, code, newUser)
 }
 
 // UpdateUser ... Update User
@@ -62,20 +63,20 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		code := http.StatusBadRequest
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 
 	var user dal.User
 	if err := json.Unmarshal(reqBody, &user); err != nil {
 		code := http.StatusBadRequest
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 
 	if user.Id == nil || *user.Id != id {
 		code := http.StatusForbidden
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 
@@ -83,11 +84,12 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	newUser, err := service.Update(ctx, &user)
 	if err != nil {
 		code := ue.GetStatusCode(err)
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 
-	json.NewEncoder(w).Encode(newUser)
+	code := http.StatusOK
+	helpers.RespondWithJSON(w, code, newUser)
 }
 
 // GetUsers ... Get all users
@@ -102,15 +104,16 @@ func GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
 	users, err := service.GetAll(ctx)
 	if err != nil {
 		code := ue.GetStatusCode(err)
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 	if users == nil {
 		code := http.StatusNotFound
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
-	json.NewEncoder(w).Encode(users)
+	code := http.StatusOK
+	helpers.RespondWithJSON(w, code, users)
 }
 
 // GetUser ... Get user by ID
@@ -128,16 +131,17 @@ func GetSingleUserHandler(w http.ResponseWriter, r *http.Request) {
 	user, err := service.Get(ctx, id)
 	if err != nil {
 		code := ue.GetStatusCode(err)
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
 
 	if user == nil {
 		code := http.StatusNotFound
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
-	json.NewEncoder(w).Encode(user)
+	code := http.StatusOK
+	helpers.RespondWithJSON(w, code, user)
 }
 
 // DeleteUser ... Delete user by ID
@@ -145,7 +149,7 @@ func GetSingleUserHandler(w http.ResponseWriter, r *http.Request) {
 // @Description delete user by ID
 // @Tags Users
 // @Param id path string true "User ID"
-// @Success 200 {object} object
+// @Success 204 {object} object
 // @Failure 500 {object} object
 // @Router /users/{id} [delete]
 func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -155,7 +159,9 @@ func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err := service.Delete(ctx, id); err != nil {
 		code := ue.GetStatusCode(err)
-		http.Error(w, http.StatusText(code), code)
+		helpers.RespondWithError(w, code, http.StatusText(code))
 		return
 	}
+	code := http.StatusNoContent
+	http.Error(w, http.StatusText(code), code)
 }
