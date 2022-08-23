@@ -10,12 +10,12 @@ package dal
 */
 
 type User struct {
-	Id          *string `json:"id"`
-	Name        *string `json:"name,omitempty"`
-	DateOfBirth *string `json:"dob,omitempty"`
-	Address     *string `json:"address,omitempty"`
-	Desc        *string `json:"description,omitempty"`
-	CreateDate  *string `json:"createdAt,omitempty"`
+	Id          *string `json:"id" validate:"required" minLength:"1" maxLength:"16"`
+	Name        *string `json:"name,omitempty" validate:"required" minLength:"1" maxLength:"100"`
+	DateOfBirth *string `json:"dob,omitempty" validate:"required" minLength:"8" maxLength:"8"`
+	Address     *string `json:"address,omitempty" validate:"required" minLength:"1" maxLength:"100"`
+	Desc        *string `json:"description,omitempty" validate:"required" minLength:"1" maxLength:"1000"`
+	CreateDate  *string `json:"createdAt,omitempty" validate:"optional" minLength:"8" maxLength:"8"`
 }
 
 type UserDocument struct {

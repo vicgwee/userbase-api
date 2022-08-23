@@ -208,24 +208,43 @@ const docTemplate = `{
     "definitions": {
         "dal.User": {
             "type": "object",
+            "required": [
+                "address",
+                "description",
+                "dob",
+                "id",
+                "name"
+            ],
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
                 },
                 "createdAt": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 8,
+                    "minLength": 8
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 1000,
+                    "minLength": 1
                 },
                 "dob": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 8,
+                    "minLength": 8
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 16,
+                    "minLength": 1
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
                 }
             }
         }
